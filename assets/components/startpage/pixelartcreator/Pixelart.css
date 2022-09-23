@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.Appi {
+  text-align: center;
+  background-color: #101522;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    flex-direction: column;
+}
+:root {
+  --main-bg-color: brown;
+  --pixel-bg-color: #ffffff;
+  --gridsizeH:800px;
+  --gridsizeW:800px;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body{
+  height: 100%;
+}
+
+
+.navbar, .container{
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  border-radius: 1px;
+}
+.navbar{
+  padding: 1em;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn, input, .eraserBtn{
+  height: 35px;
+  padding: 0 1em;
+}
+.color{
+  padding: 0 .25em;
+  width: 100px;
+  margin: 0 1em;
+
+}
+
+.container{
+  --size: 4;
+  height: var(--gridsizeH);
+  display: grid;
+  grid-template-columns: repeat(var(--size), 1fr);
+  grid-template-rows: repeat(var(--size), 1fr);
+  gap: 0px;
+  padding: 3px;
+  margin-top: 0%;
+  
+}
+.pixel{
+  background-color: var(--pixel-bg-color);
+
+
+}
+
+.pixel:hover {
+  background-color: var(--main-bg-color);
+}

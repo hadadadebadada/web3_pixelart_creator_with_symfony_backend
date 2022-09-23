@@ -1,0 +1,31 @@
+#navbar{
+    background: #101522;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+#navbarContainer{
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    /*${Container}*/
+}
+
+#navLogo{
+    color: #fff;
+    justify-self: flex-start;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+}
+#navMenu{
+
+}
