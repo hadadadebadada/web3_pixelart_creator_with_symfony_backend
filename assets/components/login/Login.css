@@ -10,9 +10,9 @@
 }}*/
   position: relative;
   left:50%;
-  top:50%;
+  top:30%;
   transform: translate(-50%, -50%);
-  margin-top: 20%;
+  margin-top: 30%;
   background: #fff;
   border-radius: 4px;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);

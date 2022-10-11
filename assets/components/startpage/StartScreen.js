@@ -12,13 +12,9 @@ class StartScreen extends Component {
         return (
             <div>
 
-             {/*   <Animations></Animations>*/}
-                <Home></Home>
-
-
-
+               <Animations></Animations>
+                {/*<Home></Home>*/}
                 <Pixelart></Pixelart>
-
                 <TestTailwind></TestTailwind>
 
                 {/* <TestingJQuery></TestingJQuery> */}

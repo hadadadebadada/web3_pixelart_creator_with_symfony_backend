@@ -5,9 +5,18 @@ import React, { Component } from "react";
 import "../../tailwind.css"
 import "./Login.css";
 
+import Modal from "../general/modalwindow";
+import modalwindow from "../general/modalwindow";
+
 class Login extends Component {
 
 
+    constructor(props) {
+        super(props);
+        this.state ={
+            modalwindow: null
+        }
+    }
     handleSubmit = e => {
     e.preventDefault();
     console.log(e.target.email.value);
@@ -36,19 +45,24 @@ class Login extends Component {
     alert("Goes to registration page");
   };
 
+  loadModal = e =>{
+      e.preventDefault();
+      this.setState({modalwindow:<Modal msg={"TEST"}></Modal>})
+  }
+
   render() {
     return (
-      <div className="Appii"
-/*      style={{
-        position: 'relative', left: '50%', top: '50%',
-        transform: 'translate(-50%, -50%)'
-    }}*/
-      >
+      <div className="Appii">
+
 {/*         <img src={logo} className="logo" alt="Business view - Reports" />
  */}        
  <div className="loginForm">
+
+     {this.state.modalwindow}
  <form className="form" onSubmit={this.handleSubmit}>
           <div className="input-group">
+
+              <h1>Login will be available soon</h1>
             <label htmlFor="email">Email</label>
             <input type="email" name="email" placeholder="nome@email.com" />
           </div>
@@ -60,7 +74,7 @@ class Login extends Component {
         </form>
         <br></br>
         <button id="eraserBtn" onClick={this.handleClick}class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-4 px-10 border border-green-500 hover:border-transparent rounded"><p style={{fontWeight:'bold', fontSize:'200%'}}>Register</p></button>
-
+        <button onClick={this.loadModal}>LOAD MODAL</button>
  </div>
 
       </div>

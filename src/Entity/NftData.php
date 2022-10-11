@@ -15,7 +15,7 @@ class NftData
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 4228250625)]
     private ?string $name = null;
 
     public function getId(): ?int

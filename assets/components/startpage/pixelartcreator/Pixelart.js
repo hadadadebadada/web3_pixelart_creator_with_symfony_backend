@@ -4,6 +4,34 @@ import html2canvas from "html2canvas"
 import OnChainNFTContract from "./OnChainNFT.json"
 import getWeb3 from "../../../getWeb3";
 import styled from "styled-components";
+import ConnectWalletModal from "../../general/connectWalletModal";
+
+
+export function getAllNFTs() {
+  return fetch('/api/nft_datas.json')
+      .then(response => {return response.json();})
+      .then((data) => console.log(data));
+}
+
+
+export function getNFT(id) {
+  return fetch(`/api/nft_datas/${id}`)
+      .then(response => {return response.json();})
+      .then((data) => console.log(data));
+}
+
+
+export function createNFTData(nftData) {
+  return fetch('/api/nft_datas', {
+    method: 'POST',
+    body: `{"name": "${nftData}"}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+
 
 const Button2 = styled.button`
   display: inline-block;
@@ -57,7 +85,9 @@ class Pixelart extends Component {
       web3: null,
       accounts: null,
       contract: null,
-      image: ""
+      image: "",
+      name:"",
+      connectWallet:null
     };
 
     this.width = this.updateDimensions.bind(this)
@@ -65,7 +95,8 @@ class Pixelart extends Component {
     this.web3 = this.componentDidMount.bind(this);
     this.accounts = this.componentDidMount.bind(this);
     this.contract = this.componentDidMount.bind(this);
-
+    this.connectWallet = this.connect.bind(this);
+    //this.name = this.getInput(this);
   }
   componentDidMount = async () => {
 
@@ -76,8 +107,8 @@ class Pixelart extends Component {
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = OnChainNFTContract.networks[networkId];
       const instance = new web3.eth.Contract(
-        OnChainNFTContract.abi,
-        deployedNetwork && deployedNetwork.address,
+          OnChainNFTContract.abi,
+          deployedNetwork && deployedNetwork.address,
       );
 
       // instance.methods.tokenURI(1).call()
@@ -92,7 +123,7 @@ class Pixelart extends Component {
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+          `Failed to load web3, accounts, or contract. Check console for details.`,
       );
       console.error(error);
     }
@@ -107,7 +138,7 @@ class Pixelart extends Component {
 
     this.setState({ colorPicker: color.value, width: window.innerWidth, height: window.innerHeight }, () => {
 
-    function populate(size) {
+      function populate(size) {
 
 
         container.style.setProperty('--size', size);
@@ -117,7 +148,7 @@ class Pixelart extends Component {
           div.classList.add('pixel')
 
           let colorPicker = getComputedStyle(div)
-            .getPropertyValue('--main-bg-color');
+              .getPropertyValue('--main-bg-color');
 
           div.addEventListener('mouseover', function () {
             div.style.setProperty("--main-bg-color", color.value);
@@ -130,7 +161,7 @@ class Pixelart extends Component {
           div.addEventListener('mouseover', function () {
 
             if (getComputedStyle(div)
-              .getPropertyValue('--pixel-bg-color') !== getComputedStyle(div)
+                .getPropertyValue('--pixel-bg-color') !== getComputedStyle(div)
                 .getPropertyValue('--main-bg-color')) return
             div.style.backgroundColor = colorPicker;
           })
@@ -178,22 +209,34 @@ class Pixelart extends Component {
 
   connect = async () => {
 
-    
-/*     if (window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        this.setState({accounts: accounts});
-        alert( accounts)
-      } catch (error) {
-        if (error.code === 4001) {
-          // User rejected request
-        }
-    
-        console.log(error);
-      }
-    } */
+
+    //https://stackoverflow.com/questions/55028583/how-do-i-call-setstate-from-another-component-in-reactjs
+    //zusätzlich state connectwallet
+      this.setState({connectWallet:<ConnectWalletModal></ConnectWalletModal>})
+
+
+    /*     if (window.ethereum) {
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            this.setState({accounts: accounts});
+            alert( accounts)
+          } catch (error) {
+            if (error.code === 4001) {
+              // User rejected request
+            }
+
+            console.log(error);
+          }
+        } */
 
   }
+
+
+  getInput  = async () =>{
+    let input = await document.getElementById("input").value
+    this.setState({name:input});
+  }
+
 
   mintPicture = async () => {
 
@@ -207,59 +250,91 @@ class Pixelart extends Component {
         if (error.code === 4001) {
           // User rejected request
         }
-    
+
         console.log(error);
       }
     }
 
-  
 
-    try{ 
-     
-    const { accounts, contract, web3 } = this.state;
-    const container = document.querySelector("#container");
-    container.style.height = "200px";
-    container.style.width = "200px";
 
-/*     async function doSomething() {
-      let result = await web3.eth.getAccounts()
-      .then((response) => 
-      
-      this.setState({accounts:response})
-      )
-      return result ;
-    }
+    try{
 
-    doSomething();
-    alert("connected to account: " ,this.state.accounts[0]) */
+      const { accounts, contract, web3 } = this.state;
+      const container = document.querySelector("#container");
+      container.style.height = "200px";
+      container.style.width = "200px";
 
-    //alert("connedted to: ",web3.eth.getAccounts()    );
-    html2canvas(container).then((canvas) => {
-      this.setState({ image: canvas.toDataURL() }, () => {
-        let picString = this.state.image
-        console.log(picString)
+      /*     async function doSomething() {
+            let result = await web3.eth.getAccounts()
+            .then((response) =>
 
-        try{        
-        contract.methods.mint(picString).send({ from: accounts[0], value: 1000000000000000, picString }) // value in wei
-        .then(function (receipt) {
-          // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-          alert("picture minted!")
-          //safe pic to api
-          console.log(receipt)
-        });}catch(error){
-          alert("please connect to metamask")
-          console.log(error);
+            this.setState({accounts:response})
+            )
+            return result ;
+          }
 
-        };
+          doSomething();
+          alert("connected to account: " ,this.state.accounts[0]) */
 
-      });
-      container.style.height = "800px";
-      container.style.width = "800px";
-      // web3.eth.sendTransaction({from:accounts[0], to:'0x433a69a3F84FbfcF32694f871ebd92046Af39ceD', value: web3.toWei(5, "ether"), gas:100000});
-    });}catch(error){
+      //alert("connedted to: ",web3.eth.getAccounts()    );
+      html2canvas(container).then((canvas) => {
+        let input = document.getElementById("input").value
+
+        this.setState({ image: canvas.toDataURL(), name:input }, () => {
+          let picString = this.state.image
+          //console.log(picString)
+
+
+
+
+
+
+          try{
+            const input = document.querySelector('input');
+            const log = document.getElementById('values');
+
+            input.addEventListener('input', updateValue);
+
+            function updateValue(e) {
+              log.textContent = e.target.value;
+            }
+            let name = this.state.name
+            let description = ""
+
+
+
+            //console.log(contract.methods.formatTokenURIforOpenSea(name, description, picString).call());
+
+
+
+            // true --> png für rarible // false -> svg für openseaa
+            const x = true;
+            contract.methods.mint(x, name, description, picString).send({ from: accounts[0], value: 1000000000000000, picString }) // value in wei
+                .then(function (receipt) {
+                  // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                  alert("picture minted!")
+                  //safe pic to api
+                  console.log(receipt)
+
+
+
+                })
+                .then(createNFTData(picString))
+
+            ;}catch(error){
+            alert("minting failed")
+            console.log(error);
+
+          };
+
+        });
+        container.style.height = "800px";
+        container.style.width = "800px";
+        // web3.eth.sendTransaction({from:accounts[0], to:'0x433a69a3F84FbfcF32694f871ebd92046Af39ceD', value: web3.toWei(5, "ether"), gas:100000});
+      });}catch(error){
       alert("please connect to metamask")
     };
-   
+
 
 
 
@@ -271,6 +346,12 @@ class Pixelart extends Component {
   render() {
 
     let myWidth = this.state.width * 0.95
+    /*     const log = document.getElementById('values');
+        let log2 = document.querySelector("#nameInput");
+        console.log(log2) */
+
+
+    let name = this.state.name
 
     return <div className="Appi">
 
@@ -280,19 +361,23 @@ class Pixelart extends Component {
         <button id="eraserBtn" class="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-4 px-10 border border-blue-500 hover:border-transparent rounded"><p style={{ fontWeight: 'bold', fontSize: '200%' }}>Eraser</p></button>
         <input type="color" valueDefault="#00eeff" id="color" class="color"></input>
         <button onClick={this.connect}>Connect Wallet</button>
+        {this.state.connectWallet}
         {/* {account != null ? <h1>Connected to Wallet: {account}</h1>: <h1>Wallet not connected</h1>} */}
       </div>
 
 
       <p>{this.state.width < 800 ? (
-        <div style={{ height: myWidth, width: myWidth }} className="container" id="container"></div>
+          <div style={{ height: myWidth, width: myWidth }} className="container" id="container"></div>
       ) : <div style={{ height: "800px", width: "800px" }} className="container" id="container"></div>}
       </p>
 
       <div style={{ height: "100px" }}></div>
 
-      <Input type="text" placeholder="Name your NFT" />
-      <Input type="text" placeholder="Give your NFT a description" />
+      <input style={{width:"30%"}}id="input" value={name} type="text" onChange={this.getInput}  placeholder="Name your NFT"/>
+      {/*       <Input id="nameInput" type="text" onChange={this.getInput} value={name} placeholder="Name your NFT" />
+ */}
+
+      {/* <Input type="text" placeholder="Give your NFT a description" /> */}
       <Button2 onClick={this.mintPicture}>Mint your artwork</Button2>
 
     </div>;
