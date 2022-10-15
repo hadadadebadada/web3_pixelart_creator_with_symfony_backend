@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 //import "../../../css/tailwind.css";
 import "../../tailwind.css"
+import getWeb3 from "../../getWeb3";
+import OnChainNFTContract from "../startpage/pixelartcreator/OnChainNFT.json";
+
 // eslint-disable-next-line react/prop-types
 const ConnectWallet = () => {
     const [showModal, setShowModal] = useState(true);
+
+
+
     return (
         <>
 
@@ -48,8 +54,7 @@ const ConnectWallet = () => {
                                 </p>
                                 <ul className="my-4 space-y-3">
                                     <li>
-                                        <a
-                                            href="#"
+                                        <button
                                             className="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
                                         >
                                             <svg
@@ -180,7 +185,7 @@ const ConnectWallet = () => {
               Popular
             </span></span>
 
-                                        </a>
+                                        </button>
                                     </li>
                                     <li>
                                         <a

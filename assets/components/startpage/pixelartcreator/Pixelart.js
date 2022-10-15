@@ -5,7 +5,7 @@ import OnChainNFTContract from "./OnChainNFT.json"
 import getWeb3 from "../../../getWeb3";
 import styled from "styled-components";
 import ConnectWalletModal from "../../general/connectWalletModal";
-
+import Base64decoder from "../../general/base64decoder";
 
 export function getAllNFTs() {
   return fetch('/api/nft_datas.json')
@@ -209,25 +209,41 @@ class Pixelart extends Component {
 
   connect = async () => {
 
+    const {  contract } = this.state;
+
+
+
+
+    contract.methods.tokenURI(1).call().then((res) => {
+      console.log(res);
+      let substringRes = res.substring(29);
+      // var b = Buffer.from('eyJuYW1lIjogIiIsImltYWdlX2RhdGEiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFKWUFBQUNXQ0FZQUFBQThBWEhpQUFBQUFYTlNSMElBcnM0YzZRQUFCd05KUkVGVWVGN3RuVTlJRlYwWXhsK1Z1RmFLSnQ0aXBZVi9GaWE2TUdyanFvZ1d3bDI0VWd3aVFxRUUzWlhvSWxxa21GQ2JDTnkwS0VnUU55NWE2TUpOdFBGUEM0TzdDSUpXbDRpODRNYXNSZVhIOGF2aGpsLzFYYnB6WnQ3bm5PZUFLMmZPKzd6UDgvUGNZWnk1cDJ4dmIyOVBPT2hBeEE2VUVheUlIZVYwK3c0UUxJSmd4UUdDWmNWV1RrcXd5SUFWQndpV0ZWczVLY0dLbUlGWHIxNkZaang2OUtpY1BuMDY0aXI2cHlOWUVXZDA4dVJKK2ZEaFF6RHI3T3lzM0xoeEkrSXErcWNqV0JGblJMRCtOWlJnRWF5SUhTQllWZ3psaWtXd3JJQ1Z5K1hrKy9mdndkekhqaDJUNnVwcUs3VnNUam93TUJDYXZydTdXMFpIUjRzdXlZL0NvcTN5NjhCVHAwNkorU1A1T1I0K2ZFaXcvRUxBVHJjRXk0NnYzczhLQ1ZiaEV2c3p3U05IamtoZFhSMVVvTC9xSTVWS1NUcWQvbU1mQjgrcnFLZ1FjOUd2YVdReUdmbjQ4V01nNmViTm05TFgxMWUweEVTdXNlN2R1eWNURXhNaGtkKytmWlB5OHZLaWhXczQ4TUdEQjJJTUx4ekY5TkhWMVNXYm01dkJhV05qWXpJek02T2hwY2cwRUt3U3JMeC8vNzdjdW5XTFlQM0NRNEpGc0VwdzRQZW5FcXdTYk9XS3BReXNrWkVSeVdheklWWFBueitIdTVGb0xzSzN0clpDZlhSMGRNaWhRNGYraU91Yk4yL2s4K2ZQd1RFblRweVFob2FHRWhDM2YrcjgvTHlzcmEyRkNvMlBqNHZSL3F2QkZjdCtKazVVTUdBZHZCdS9zN01qNXJFZ2d1VkV4TWswUWJDUzhkMzVxaEJnbVl2ZTI3ZHZoOEw0OU9rVDNIMHM1MmtxYUhCaFlVR3VYcjBhYWptZnordjZLUFFwRUY5N1RlVGkzVmV6ZmVxYllQbVVkb3k5RXF3WXpmYXBGTUh5S2UwWWV5VllNWnJ0VXltQzVWUGFNZlpLc0dJMDI2ZFNCTXVudEdQczFUbXdMbDI2RkhvNjgrTEZpMkwrSGNFUnJ3Tk9ncld5c2hLNDJOL2ZUN0RpWldxL0dzRkt3SFFmU2hJc0gxSk9vRWZud0ZwYVdwTDM3OThIVmpZM044dUZDeGNTc05idmtzNkI1WGVjZXJvbldIcXljRW9Kd1hJcVRqM05FQ3c5V1RpbGhHQTVGV2R4elhSMmRvWU92SHYzcnZUMjloWjNjcEZIRWF3aWpYTHBNUFBlNDlldlg0T1dGaGNYQ1paTEFTZlZDOEZLeW5uSDZ4SXN4d05PcXIwN2QrNkV2aWYxOHVYTGtXOXl3R3VzcE5KMXZDN0JjanpncE5valdFazU3M2hkZ3VWNHdFbTFSN0JFOWpkVnVuTGxTaWlENmVscE9YdjJiRks1d05jbFdEL0FPdml0eFJzYkd3U3JCTHdKMW0vQVdsOWZsM1BuenBWZ3JkK25FaXlDWmVVdmdHQ0p5UGIydGd3UEQ0Y01ucHFha3BhV0ZpdW0rekFwd2ZJaDVRUjZKRmdKbU81RFNZTGxROG9KOUVpd0VqRGRoNUlFUzBISzVzM3RwMCtmaHBTWVRadTBieXJ3SitzSWxoS3d6SGRPRkE2ejQwVjlmYjBDZFg4bmdXRDluVytSbm1WV0xJSVZxYVdjekRoQXNNaUJGUWRXVjFmbCt2WHJvYmxmdkhnaHRiVzFWdXJGTVNrL0N1TncyY01hQk12RDBPTm9tV0RGNGJLSE5RaVdoNkhIMGJMellKbmQ0dWZtNWtKZVhydDJUZHJiMitQd1Y1NDlleWF2WDc4TzFUSWJsQjgvZmp5Vytra1Y4UUtzcnE2dWtML3YzcjJUcHFhbVdEdzNZQjE4N0hsM2QxY09IejRjUy8ya2loQXN5ODRUTE1zR0p6VzkrU2praWhXLysxeXhMSHZPRmN1eXdaemVMd2VjWDdIOGlsTlB0d1JMVHhaT0tTRllUc1dwcHhtQ3BTY0xwNVFRTEtmaTFOTU13ZEtUaFZOS0NKWlRjZXBwaG1EcHljSXBKV3JBT3ZnMVFwT1Rrekk0T09pVTJUNDFvd2FzZERvdCtYdys4UDd4NDhjRUM1aEVnZ1Vjbm1icEJFdHpPc0RhMUlEMTVNa1QrZkxsUzJEbCtmUG5wYTJ0RGRqYTBxU2JweUlLaDNrVkxKUEpsRFpwakdlckFTdkduaUZLOWZUMHlQTHljcURWN001bE5sTkNHUVJMYVZJRVMya3c2TElJRm5xQ1N2VVRMS1hCb01zeWIvS1VsWlVGYlpTWGwwc3FsWUpwaTlkWU1GRmhDU1ZZV0huQnFDVllNRkZoQ1NWWUlIbGxzOW45emFRS1IxMWRuWnc1YzBabEJ3UkxaU3ovRldYQTZ1enNEUDNpN2R1MzB0cmFxcklEZ3FVeUZvSUZFZ3UrVEs1WStCbXE3SUJncVl3Rlg1UzVZV3ArQ2tkbFphVlVWVldwYkk3WFdDcGp3UmRGc1BBelZOa0J3VklaQzc0b2d2Vmo2OTdDRnpsTXJPYjZSZXM5SWdUc0NCWjNzYmZDS2NFaVdBVExpZ01FeTRxdFhMRUlGc0d5NG9ESS9tdG51Vnd1TkwxNU03dW1wc1pXeWYrZDEyeHlVRGdhR3h2RmZPMEF5dUNLcFRRcFB2T3VOQmgwV1FRTFBVR2wrZ21XMG1EUVpRME5EY25MbHkrRE5zeWUwWThlUFlKcGk5ZFlNRkZoQ1NWWVdIbkJxQ1ZZTUZGaENTVllXSG5CcUNWWU1GRmhDU1ZZV0huQnFDVllNRkZoQ1NWWVdIbkJxQ1ZZTUZGaENTVllXSG5CcUNWWU1GRmhDU1ZZV0huQnFDVllNRkZoQ1NWWVdIbkJxQ1ZZTUZGaENTVllXSG5CcUNWWU1GRmhDU1ZZV0huQnFDVllNRkZoQ1NWWVdIbkJxQ1ZZTUZGaENTVllXSG5CcUNWWU1GRmhDU1ZZV0huQnFDVllNRkZoQ1NWWVdIbkJxQ1ZZTUZGaENTVllXSG5CcUNWWU1GRmhDU1ZZV0huQnFDVllNRkZoQ1NWWVdIbkJxQ1ZZTUZGaENTVllXSG5CcVAwSHU4SjRleml2N0JZQUFBQUFTVVZPUks1Q1lJST0iLCJhdHRyaWJ1dGVzIjogW3sidHJhaXRfdHlwZSI6ICJTcGVlZCIsICJ2YWx1ZSI6IDF9LHsidHJhaXRfdHlwZSI6ICJBdHRhY2siLCAidmFsdWUiOiAyfSx7InRyYWl0X3R5cGUiOiAiRGVmZW5jZSIsICJ2YWx1ZSI6IDN9LHsidHJhaXRfdHlwZSI6ICJNYXRlcmlhbCIsICJ2YWx1ZSI6ICI0In1dfQ==','base64').toString('ascii');
+
+     //let b=  decodeBase64(substringRes);
+
+     let c = Base64decoder(substringRes)
+      console.log(c)
+    let jsonObj =   JSON.parse(c);
+     console.log(jsonObj.image_data)
+    //  console.log(b);
+    }).catch((err) => {
+      console.log(err);
+    });
+
+
+
+
+    // 1. json to string
+    // 2. img data from json
+
+
 
     //https://stackoverflow.com/questions/55028583/how-do-i-call-setstate-from-another-component-in-reactjs
     //zusätzlich state connectwallet
-      this.setState({connectWallet:<ConnectWalletModal></ConnectWalletModal>})
+    //  this.setState({connectWallet:<ConnectWalletModal></ConnectWalletModal>})
 
 
-    /*     if (window.ethereum) {
-          try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            this.setState({accounts: accounts});
-            alert( accounts)
-          } catch (error) {
-            if (error.code === 4001) {
-              // User rejected request
-            }
 
-            console.log(error);
-          }
-        } */
 
   }
 
@@ -360,7 +376,7 @@ class Pixelart extends Component {
         <div style={{ width: '30px' }}></div>
         <button id="eraserBtn" class="bg-transparent hover:bg-red-500 text-blue-700 font-semibold hover:text-white py-4 px-10 border border-blue-500 hover:border-transparent rounded"><p style={{ fontWeight: 'bold', fontSize: '200%' }}>Eraser</p></button>
         <input type="color" valueDefault="#00eeff" id="color" class="color"></input>
-        <button onClick={this.connect}>Connect Wallet</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={this.connect}>Connect another Wallet</button>
         {this.state.connectWallet}
         {/* {account != null ? <h1>Connected to Wallet: {account}</h1>: <h1>Wallet not connected</h1>} */}
       </div>
