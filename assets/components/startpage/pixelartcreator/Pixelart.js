@@ -37,7 +37,7 @@ const Button2 = styled.button`
   display: inline-block;
   color: palevioletred;
   background: yellow;
-  font-size: 10em;
+  font-size: 5em;
   margin: 1em;
   padding: 0.25em 1em;
   border: 2px solid palevioletred;
@@ -240,7 +240,7 @@ class Pixelart extends Component {
 
     //https://stackoverflow.com/questions/55028583/how-do-i-call-setstate-from-another-component-in-reactjs
     //zusätzlich state connectwallet
-    //  this.setState({connectWallet:<ConnectWalletModal></ConnectWalletModal>})
+      this.setState({connectWallet:<ConnectWalletModal></ConnectWalletModal>})
 
 
 
@@ -280,17 +280,6 @@ class Pixelart extends Component {
       container.style.height = "200px";
       container.style.width = "200px";
 
-      /*     async function doSomething() {
-            let result = await web3.eth.getAccounts()
-            .then((response) =>
-
-            this.setState({accounts:response})
-            )
-            return result ;
-          }
-
-          doSomething();
-          alert("connected to account: " ,this.state.accounts[0]) */
 
       //alert("connedted to: ",web3.eth.getAccounts()    );
       html2canvas(container).then((canvas) => {
@@ -299,10 +288,6 @@ class Pixelart extends Component {
         this.setState({ image: canvas.toDataURL(), name:input }, () => {
           let picString = this.state.image
           //console.log(picString)
-
-
-
-
 
 
           try{
@@ -318,11 +303,6 @@ class Pixelart extends Component {
             let description = ""
 
 
-
-            //console.log(contract.methods.formatTokenURIforOpenSea(name, description, picString).call());
-
-
-
             // true --> png für rarible // false -> svg für openseaa
             const x = true;
             contract.methods.mint(x, name, description, picString).send({ from: accounts[0], value: 1000000000000000, picString }) // value in wei
@@ -331,8 +311,6 @@ class Pixelart extends Component {
                   alert("picture minted!")
                   //safe pic to api
                   console.log(receipt)
-
-
 
                 })
                 .then(createNFTData(picString))
@@ -362,9 +340,6 @@ class Pixelart extends Component {
   render() {
 
     let myWidth = this.state.width * 0.95
-    /*     const log = document.getElementById('values');
-        let log2 = document.querySelector("#nameInput");
-        console.log(log2) */
 
 
     let name = this.state.name
