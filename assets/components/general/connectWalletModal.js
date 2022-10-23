@@ -2,7 +2,7 @@ import React, { useState } from "react";
 //import "../../../css/tailwind.css";
 import "../../tailwind.css"
 import getWeb3 from "../../getWeb3";
-import OnChainNFTContract from "../startpage/pixelartcreator/OnChainNFT.json";
+import OnChainNFTContract from "../startpage/pixelartcreator/OnChainNFT_old.json";
 
 // eslint-disable-next-line react/prop-types
 const ConnectWallet = () => {

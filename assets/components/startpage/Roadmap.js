@@ -51,7 +51,7 @@ class TestTailwind extends Component {
                     }}>
 
 
-                    The main functionality is developed and in production. You can mint your first NFT's on the rinkeby testnet.
+                    The main functionality is developed and in production. You can mint your first NFT's on the goerli testnet.
                         </p>
                 </div>
                 <div className="roadmap" class="md:container md:mx-auto bg-[#101529] rounded shadow border p-8 m-10 hover:bg-blue-400 ..."
