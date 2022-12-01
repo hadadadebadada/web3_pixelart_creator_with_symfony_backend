@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+//import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 /* import table from '../../assets/models/android.glb' 
 import react from '../../assets/models/react.glb' */
-import pixel3Dobj1 from '../../assets/models/scene (1).glb'
+//import pixel3Dobj1 from '../../assets/models/scene (1).glb'
 /* import pixel3Dobj2 from '../../assets/models/scene (2).glb'
- */import pixel3Dobj3 from '../../assets/models/scene (3).glb'
+ */
+//import pixel3Dobj3 from '../../assets/models/scene (3).glb'
 /* import pixel3Dobj4 from '../../assets/models/scene (4).glb'
- */import pixel3Dobj5 from '../../assets/models/scene (5).glb'
+
+ */
+//import pixel3Dobj5 from '../../assets/models/scene (5).glb'
 /* import pixel3Dobj6 from '../../assets/models/scene (6).glb'
 import pixel3Dobj7 from '../../assets/models/scene (7).glb'
 import pixel3Dobj8 from '../../assets/models/scene (8).glb'
@@ -185,10 +188,7 @@ class Home extends Component {
 
             //-------------------------------Orbiting test2 -----------------------------------------------
 
-            const GLTFloader = new GLTFLoader();
-            let obj = null;
 
-            GLTFloader.setCrossOrigin("true");
 
 
 
@@ -199,54 +199,15 @@ class Home extends Component {
             // GLTFloader.load('https://drive.google.com/uc?export=download&id=1_DDFce6V9xlJ8kJo_eRAZdURPYKGf8wC', function(glb) {
 
 
-            test = new THREE.Mesh(cloudGeometry, cloudMaterial);
 
-            GLTFloader.load(pixel3Dobj1, function (glb) {  //smiley
-
-                test = glb.scene;
-
-                glb.scene.scale.set(0.1, 0.1, 0.1)
-                glb.scene.position.x = -3;
-                glb.scene.rotation.x -= 0.5;
-                scene.add(glb.scene);
-                var orbitingObjPivot2 = new THREE.Object3D();
-                mesh.add(orbitingObjPivot2);
-                orbitingObjPivot2.add(glb.scene);
-            });
 
             //-------------------------------orbiting pc -----------------------------------------------------
 
-            rotateObj2 = new THREE.Mesh();
-            GLTFloader.load(pixel3Dobj3, function (glb) {   //pikachu
 
-                rotateObj2 = glb.scene;
-                glb.scene.scale.set(0.0001, 0.0001, 0.0001)
-
-                glb.scene.position.x = 3;
-                glb.scene.rotation.x -= 0.5;
-                scene.add(glb.scene);
-                var orbitingObjPivot3 = new THREE.Object3D();
-                mesh.add(orbitingObjPivot3);
-                orbitingObjPivot3.add(glb.scene);
-            });
 
 
             //python
-            rotateObj3 = new THREE.Mesh();
 
-            GLTFloader.load(pixel3Dobj5, function (glb) {  //violet man
-
-                rotateObj3 = glb.scene;
-                glb.scene.scale.set(0.04, 0.04, 0.04)
-                glb.scene.position.z = -2
-                glb.scene.position.x = 0;
-                glb.scene.position.y = 2;
-                glb.scene.rotation.x -= 0.5;
-                scene.add(glb.scene);
-                var orbitingObjPivot4 = new THREE.Object3D();
-                mesh.add(orbitingObjPivot4);
-                orbitingObjPivot4.add(glb.scene);
-            });
 
             /*            
             
@@ -359,14 +320,14 @@ class Home extends Component {
 
             /* TWEEN.update(); */
             // obj.rotation.x += 0.005;
-            test.rotation.y += 0.01;
-            test.rotation.x += 0.01;
+          //  test.rotation.y += 0.01;
+          //  test.rotation.x += 0.01;
 
-            rotateObj2.rotation.y += 0.01;
-            rotateObj2.rotation.x += 0.01;
+          //  rotateObj2.rotation.y += 0.01;
+           // rotateObj2.rotation.x += 0.01;
 
-            rotateObj3.rotation.y += 0.01;
-            rotateObj3.rotation.x += 0.01;
+            //rotateObj3.rotation.y += 0.01;
+           // rotateObj3.rotation.x += 0.01;
             /* 
                        rotateObj4.rotation.y += 0.01;
                        rotateObj4.rotation.x += 0.01;

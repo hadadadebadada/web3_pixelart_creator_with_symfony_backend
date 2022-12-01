@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 import "../../styles/loginAnimationStyles.css"
 
-import tableGLB from '../../assets/models/donkey.glb'
+//import tableGLB from './donkey.glb'>
 
 import Login from "./Login"
 
@@ -141,28 +141,10 @@ function onDocumentMouseMove(event) {
 
 }
 
-const GLTFloader = new GLTFLoader();
 
-    GLTFloader.setCrossOrigin("true");
+
    
 
-    let tableIcon = new THREE.Mesh();
-
-    GLTFloader.load(tableGLB, function (glb) {
-      tableIcon = glb.scene;
-
-      glb.scene.position.z = -10;
-      glb.scene.position.x = 0;
-      glb.scene.position.y = -1;
-
-
-      glb.scene.rotation.x = 2;
-      glb.scene.rotation.z = 3;
-
-      scene.add(tableIcon);
-
-      console.log(typeof (tableIcon))
-    });
 
 
 
@@ -170,8 +152,7 @@ const GLTFloader = new GLTFLoader();
 function render() {
   requestAnimationFrame( render);
   //tableIcon.rotation.x += 0.01;
-  tableIcon.rotation.y += 0.05;
-  tableIcon.position.z += -0.004;
+
   camera.position.x += ( mouseX - camera.position.x ) * .05;
   camera.position.y += ( - mouseY - camera.position.y ) * .05;
   cube.rotation.x += 0.01;

@@ -13,7 +13,7 @@ class StartScreen extends Component {
             <div>
 
                <Animations></Animations>
-                {/*<Home></Home>*/}
+                <Home></Home>
                 <Pixelart></Pixelart>
                 <TestTailwind></TestTailwind>
 
